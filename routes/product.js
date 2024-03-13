@@ -39,6 +39,11 @@ router.post('/createPost', upload.single('image'), async function(req, res, next
     res.redirect('/product');
 });
 
+/* GET delete page */
+router.get('/delete/:id', async function(req, res, next) {
+    await productModel.deleteOne({productID: req.params.id});
+    res.redirect('/product');
+});
 module.exports = router;
 
 
