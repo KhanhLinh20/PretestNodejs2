@@ -1,0 +1,34 @@
+extends ../layout.pug
+
+block content
+  h2 
+    a.btn.btn-primary(href="/product/create") Add New Product 
+  h1.text-center Product List
+  
+  table.table
+    thead.thead-dark
+      tr 
+        th ID 
+        th Product Name
+        th Product Price
+        th Email 
+        th Password
+        th Image
+        th Action
+    tbody
+      if products != ''  
+        each item in products
+          tr 
+            td= item.productID
+            td= item.productName
+            td= item.productPrice
+            td= item.email
+            td= item.password
+            td
+              img(src=`/images/${item.image}` style="width:100px;height:auto")
+            td.d-flex.justify-content-between.align-self-center 
+              a.btn.btn-warning(href=`/product/update/${item.productID}`) Update
+              a.btn.btn-danger(href=`/product/delete/${item.productID}`) Delete
+      else 
+        tr 
+          td(colspan="7") No product found!
