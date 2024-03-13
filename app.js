@@ -27,7 +27,16 @@ app.use('/product', productRouter);
 
 
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://127.0.0.1:27017/demo", {useNewUrlParser: true});
+// mongoose.connect("mongodb://127.0.0.1:27017/demo", {useNewUrlParser: true});
+mongoose
+  .connect("mongodb+srv://khanhlinhdh98:khanhlinhdh98@cluster0.0xkxg1s.mongodb.net/product?retryWrites=true&w=majority&appName=Cluster0")
+  .then(() => {
+    console.log("Connect to mongodb");
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
