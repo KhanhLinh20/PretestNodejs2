@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon view/index.js 80 ./bin/www",
-    "run": "nodemon --inspect view/index.js 80"
+    "start": "node ./bin/www",
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
