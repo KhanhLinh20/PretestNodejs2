@@ -7,7 +7,8 @@ block content
   
   table.table
     thead.thead-dark
-      tr 
+      tr
+        th _id
         th ID 
         th Product Name
         th Product Price
@@ -18,7 +19,8 @@ block content
     tbody
       if products  
         each item in products
-          tr 
+          tr
+            td= item._id
             td= item.productID
             td= item.productName
             td= item.productPrice
@@ -26,9 +28,15 @@ block content
             td= item.password
             td
               img(src=`/images/${item.image}` style="width:100px;height:auto")
-            td.d-flex.justify-content-between.align-self-center 
+            td.d-flex.justify-content-around.align-self-center
               a.btn.btn-warning(href=`/product/update/${item.productID}`) Update
-              a.btn.btn-danger(href=`/product/delete/${item.productID}`) Delete
+              a.btn.btn-danger(href=`/product/delete/${item.productID}` onclick="confirmDelete()") Delete
       else 
         tr 
           td(colspan="7") No product found!
+  script.
+    function confirmDelete() {
+      if (confirm("Are you sure you want to delete this product?")) {
+        return;
+      }
+    }

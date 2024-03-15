@@ -1,0 +1,35 @@
+extends ../layout.pug
+
+block content
+    h1.text-center UPDATE PRODUCT
+    .col-md-6.offset-md-3
+        form(action=`/product/updatePost/${updateProduct.productID}` method='post' enctype='multipart/form-data')
+            .form-group.mb-3
+                label(for='_id') _id
+                input#productID.form-control(name='id' value=`${updateProduct._id}`)
+            .form-group.mb-3
+                label(for='productID') Product ID
+                input#productID.form-control(name='productID' value=`${updateProduct.productID}` readonly disabled)
+            .form-group.mb-3
+                label(for='productName') Product Name
+                input#productName.form-control(name='productName', value=`${updateProduct.productName}`)
+            .form-group.mb-3
+                label(for='productPrice') Product Price
+                input#productPrice.form-control(name='productPrice', value=`${updateProduct.productPrice}`, type='number')
+            .form-group.mb-3
+                label(for='email') Email
+                input#email.form-control(name='email', value=`${updateProduct.email}`, type='mail')
+            .form-group.mb-3
+                label(for='password') Password
+                input#password.form-control(name='password', value=`${updateProduct.password}`, type='password')
+            //- .form-group.mb-3
+            //-     label(for='confirmPassword') Reconfirm Password
+            //-     input#confirmPassword.form-control(name='confirmPassword', type='password')
+            .form-group.mb-3
+                label(for='image') Image
+                input#image.form-control(name='image', value=`${updateProduct.image}`, type='file')
+            if updateProduct.image != undefined 
+                img.mb-3.col-md-12(src=`/images/${updateProduct.image}`, style="height:auto;")
+            .col-md-12.d-flex.justify-content-between
+                a.btn.btn-secondary(href="/product") BACK
+                input.btn.btn-success(type='submit', value='UPDATE')
