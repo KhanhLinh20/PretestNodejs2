@@ -2,7 +2,7 @@ var express = require('express');
 const productModel = require('../Model/productModel');
 var router = express.Router();
 
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const multer = require('multer');
 const store = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -29,7 +29,7 @@ router.get('/create', async function(req, res, next) {
 router.post('/createPost', upload.single('image'), async function(req, res, next) {
     let file = req.file;
     // Hash password
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    // const hashedPassword = await bcryptjs.hash(req.body.password, 10);
     let productP = new productModel({
         productID: req.body.productID,
         productName: req.body.productName,
