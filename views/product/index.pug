@@ -1,8 +1,24 @@
 extends ../layout.pug
 
 block content
-  h2 
-    a.btn.btn-primary(href="/product/create") Add New Product 
+  a.btn.btn-primary.mb-3(href="/product/create") Add New Product
+  .row
+    .col-md-4
+      form(action='/product/search')
+        |Search Name
+        .d-flex.justify-content-between
+          input.form-control.mr-3(name='productName')
+          input.btn.btn-primary(type="submit" value="Search")
+          button.btn.btn-secondary(type="button" onclick="window.location='/product'") Reset
+    .col-md-4
+      form(action='/product/searchPrice')
+        .d-flex.justify-content-between
+          |From
+          input.form-control.mr-3(name='minPrice')
+          |To
+          input.form-control.mr-3(name='maxPrice')
+          input.btn.btn-primary(type="submit" value="Search Price")
+          button.btn.btn-secondary(type="button" onclick="window.location='/product'") Reset
   h1.text-center Product List
   
   table.table
@@ -17,7 +33,11 @@ block content
         th Image
         th Action
     tbody
-      if products  
+      if messageSearch
+        tr
+          td(colspan="8")
+            h4.text-center(style= 'color: red;')= messageSearch
+      else
         each item in products
           tr
             td= item._id
@@ -30,13 +50,16 @@ block content
               img(src=`/images/${item.image}` style="width:100px;height:auto")
             td.d-flex.justify-content-around.align-self-center
               a.btn.btn-warning(href=`/product/update/${item.productID}`) Update
-              a.btn.btn-danger(href=`/product/delete/${item.productID}` onclick="confirmDelete()") Delete
-      else 
+              a.btn.btn-danger(href=`/product/delete/${item.productID}` onclick="return confirmDelete()") Delete
+      if !messageSearch && !products
         tr 
-          td(colspan="7") No product found!
+          td(colspan="8") No Data!
   script.
     function confirmDelete() {
       if (confirm("Are you sure you want to delete this product?")) {
-        return;
+        return true;
+      }
+      else {
+        return false;
       }
     }

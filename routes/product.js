@@ -2,6 +2,7 @@ var express = require('express');
 const productModel = require('../Model/productModel');
 var router = express.Router();
 
+const bcrypt = require('bcrypt');
 const multer = require('multer');
 const store = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -27,12 +28,15 @@ router.get('/create', async function(req, res, next) {
 /* POST create page */
 router.post('/createPost', upload.single('image'), async function(req, res, next) {
     let file = req.file;
+    // Hash password
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     let productP = new productModel({
         productID: req.body.productID,
         productName: req.body.productName,
         productPrice: req.body.productPrice,
         email: req.body.email,
         password: req.body.password,
+        // password: hashedPassword,
         image: file.filename
     });
     await productP.save();
@@ -79,6 +83,42 @@ router.post('/updatePost/:id', upload.single('image'), async function(req, res, 
     }
 });
 
+/* GET search by name page */
+router.get('/search', async (req, res) => {
+    const searchByName = req.query.productName; // Lấy tên sản phẩm từ query parameter
+
+    // Tìm kiếm tên sản phẩm trong cơ sở dữ liệu
+    const productSearch = await productModel.find({productName: {$regex: new RegExp(searchByName, "i")}});
+    if (productSearch.length === 0) {
+        // Không tìm thấy sản phẩm phù hợp
+        res.render('product/index', { messageSearch: "Search Not Found" });
+    } else {
+        // Tìm thấy sản phẩm, trả về kết quả
+        res.render('product/index', {products: productSearch});
+    }
+});
+
+/* GET search by price */
+router.get('/searchPrice', async(req, res) => {
+    // Lấy giá trị tối thiểu và tối đa từ query parameters
+    const searchMinPrice = parseFloat(req.query.minPrice) || 0;
+    const searchMaxPrice = parseFloat(req.query.maxPrice) || Number.MAX_SAFE_INTEGER;
+
+    // Đảm bảo maxPrice luôn lớn hơn hoặc bằng minPrice
+    // if (searchMaxPrice < searchMinPrice) {
+    //     searchMaxPrice = searchMinPrice;
+    // }
+
+    // Tìm kiếm sản phẩm trong khoảng giá
+    const productsSeacrchPrice = await productModel.find({ productPrice: { $gte: searchMinPrice, $lte: searchMaxPrice } });
+    if (!productsSeacrchPrice || productsSeacrchPrice.length === 0) {
+        // Không tìm thấy sản phẩm phù hợp
+        res.render('product/index', { messageSearch: "Search Not Found" });
+    } else {
+        // Tìm thấy sản phẩm, trả về kết quả
+        res.render('product/index', {products: productsSeacrchPrice});
+    }
+})
 
 module.exports = router;
 
