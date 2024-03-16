@@ -7,6 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productRouter = require('./routes/product');
+var userRouter = require('./routes/user');
+
 
 
 var app = express();
@@ -24,10 +26,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/product', productRouter);
+app.use('/user', userRouter);
+
 
 
 const mongoose = require('mongoose');
-// mongoose.connect("mongodb://127.0.0.1:27017/demo", {useNewUrlParser: true});
+mongoose.connect("mongodb://127.0.0.1:27017/demo", {useNewUrlParser: true});
 mongoose
   .connect("mongodb+srv://khanhlinhdh98:khanhlinhdh98@cluster0.0xkxg1s.mongodb.net/product?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => {

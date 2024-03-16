@@ -1,0 +1,27 @@
+extends ../layout.pug
+
+block content
+   extends ../layout.pug
+
+block content
+    h1.text-center CREATE NEW ACCOUNT
+    .col-md-6.offset-md-3
+        form(action="" method='')
+            .form-group.mb-3
+                label(for='name') Name
+                input.form-control(name='name')
+            .form-group.mb-3
+                label(for='phone') Phone Number
+                input.form-control(name='phone', type='tel')
+            .form-group.mb-3
+                label(for='email') Email
+                input#email.form-control(name='email', type='mail')
+            .form-group.mb-3
+                label(for='password') Password
+                input#password.form-control(name='password', type='password')
+            .form-group.mb-3
+                label(for='confirmPassword') Confirm Password
+                input#confirmPassword.form-control(name='confirmPassword', type='password')
+            .col-md-12.d-flex.justify-content-between
+                a.btn.btn-secondary(href="/product") BACK
+                input.btn.btn-success(type='submit', value='CREATE')

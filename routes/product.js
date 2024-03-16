@@ -120,6 +120,11 @@ router.get('/searchPrice', async(req, res) => {
     }
 })
 
+/* GET register page */
+/*router.get('/user/register', function(req, res) {
+    res.render('user/register');
+})
+*/
 module.exports = router;
 
 
