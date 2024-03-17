@@ -9,18 +9,23 @@ block content
         .d-flex.justify-content-between
           input.form-control.mr-3(name='productName')
           input.btn.btn-primary(type="submit" value="Search")
-          button.btn.btn-secondary(type="button" onclick="window.location='/product'") Reset
+          button.btn.btn-secondary(type="button" onclick="window.location='/'") Reset
     .col-md-4
       form(action='/product/searchPrice')
         .d-flex.justify-content-between
           |From
-          input.form-control.mr-3(name='minPrice')
+          input.form-control(name='minPrice')
           |To
-          input.form-control.mr-3(name='maxPrice')
+          input.form-control(name='maxPrice')
           input.btn.btn-primary(type="submit" value="Search Price")
-          button.btn.btn-secondary(type="button" onclick="window.location='/product'") Reset
+          button.btn.btn-secondary(type="button" onclick="window.location='/'") Reset
   h1.text-center Product List
-  
+  div
+    a.btn.btn-warning.mb-3(href="/product/sortPriceLowToHigh") Sort Price (Low to High)
+  div 
+    a.btn.btn-warning.mb-3(href="/product/sortPriceHighToLow") Sort Price (High to Low)
+  div 
+    a.btn.btn-warning.mb-3(href="/product/sortByName") Sort Name (A-Z)
   table.table
     thead.thead-dark
       tr
@@ -28,8 +33,8 @@ block content
         th ID 
         th Product Name
         th Product Price
-        th Email 
-        th Password
+        //- th Email 
+        //- th Password
         th Image
         th Action
     tbody
@@ -43,9 +48,9 @@ block content
             td= item._id
             td= item.productID
             td= item.productName
-            td= item.productPrice
-            td= item.email
-            td= item.password
+            td= item.productPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
+            //- td= item.email
+            //- td= item.password
             td
               img(src=`/images/${item.image}` style="width:100px;height:auto")
             td.d-flex.justify-content-around.align-self-center
@@ -53,7 +58,7 @@ block content
               a.btn.btn-danger(href=`/product/delete/${item.productID}` onclick="return confirmDelete()") Delete
       if !messageSearch && !products
         tr 
-          td(colspan="8") No Data!
+          td(colspan="6") No Data!
   script.
     function confirmDelete() {
       if (confirm("Are you sure you want to delete this product?")) {

@@ -31,9 +31,9 @@ app.use('/user', userRouter);
 
 
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://127.0.0.1:27017/demo", {useNewUrlParser: true});
+// mongoose.connect("mongodb://127.0.0.1:27017/pretest2", {useNewUrlParser: true});
 mongoose
-  .connect("mongodb+srv://khanhlinhdh98:khanhlinhdh98@cluster0.0xkxg1s.mongodb.net/product?retryWrites=true&w=majority&appName=Cluster0")
+  .connect("mongodb+srv://khanhlinhdh98:khanhlinhdh98@cluster0.0xkxg1s.mongodb.net/pretest2?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => {
     console.log("Connect to mongodb");
   })

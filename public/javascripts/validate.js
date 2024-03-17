@@ -66,3 +66,19 @@ function validateForm() {
         return false;
     }
 }
+
+// Sắp xếp danh sách sản phẩm từ thấp đến cao
+function sortAscending() {
+    const table = document.querySelector('.table tbody');
+    Array.from(table.children)
+      .sort((a, b) => parseFloat(a.children[3].textContent) - parseFloat(b.children[3].textContent))
+      .forEach(row => table.appendChild(row));
+  }
+
+  // Sắp xếp danh sách sản phẩm từ cao đến thấp
+  function sortDescending() {
+    const table = document.querySelector('.table tbody');
+    Array.from(table.children)
+      .sort((a, b) => parseFloat(b.children[3].textContent) - parseFloat(a.children[3].textContent))
+      .forEach(row => table.appendChild(row));
+  }

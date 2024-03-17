@@ -23,6 +23,28 @@ router.post('/registerPost', async function(req, res, next) {
         confirmPassword: hashedConfirmPassword,
     });
     await userU.save();
-    res.redirect('/product');
+    res.redirect('/user/login');
+});
+
+/* GET login page */
+router.get('/login', async function(req, res, next) {
+    res.render('user/login');
+})
+
+/* POST login page */
+router.post('/loginPost', async (req, res) => {
+    const { emailInput, passwordInput } = req.body;
+
+    // Tìm kiếm người dùng theo email
+    const user = await userModel.findOne({ email: emailInput });
+    
+    // So sánh mật khẩu đã nhập với mật khẩu đã lưu
+    const isMatch = await bcryptjs.compare(passwordInput, user.password);
+    if (!user || !isMatch) {
+        return res.render(('user/login'), {messageLogIn: 'Email or password is incorrect'});
+    }
+
+    // Nếu mọi thứ đều khớp, cho phép đăng nhập
+    res.redirect('/');
 });
 module.exports = router;

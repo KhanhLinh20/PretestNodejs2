@@ -1,0 +1,25 @@
+extends ../layout.pug
+
+block content
+   extends ../layout.pug
+
+block content
+    h1.text-center LOG IN
+    if (messageLogIn)
+        div.alert.alert-danger=messageLogIn
+    .col-md-6.offset-md-3
+        form(action="/user/loginPost" method='POST')
+            .form-group.mb-3
+                label(for='email') Email
+                input#email.form-control(name='emailInput', type='mail' required)
+                p#errEmail(style='color: red;')
+            .form-group.mb-3
+                label(for='password') Password
+                input#password.form-control(name='passwordInput', type='password' required)
+                p#errPassword(style='color: red;')
+            .col-md-12.d-flex.justify-content-between
+                a.btn.btn-secondary(href="/user/register") BACK TO REGISTER
+                input#submitButton.btn.btn-success(type='submit', value='CREATE')
+    script(src='/javascripts/validate.js')
+        
+        

@@ -15,10 +15,10 @@ const store = multer.diskStorage({
 const upload = multer({storage: store});
 
 /* GET home page. */
-router.get('/', async function(req, res, next) {
-    let product = await productModel.find();
-    res.render('product/index', { products: product });
-});
+// router.get('/', async function(req, res, next) {
+//     let product = await productModel.find();
+//     res.render('product/index', { products: product });
+// });
 
 /* GET create page */
 router.get('/create', async function(req, res, next) {
@@ -34,19 +34,19 @@ router.post('/createPost', upload.single('image'), async function(req, res, next
         productID: req.body.productID,
         productName: req.body.productName,
         productPrice: req.body.productPrice,
-        email: req.body.email,
-        password: req.body.password,
+        // email: req.body.email,
+        // password: req.body.password,
         // password: hashedPassword,
         image: file.filename
     });
     await productP.save();
-    res.redirect('/product');
+    res.redirect('/');
 });
 
 /* GET delete page */
 router.get('/delete/:id', async function(req, res, next) {
     await productModel.deleteOne({productID: req.params.id});
-    res.redirect('/product');
+    res.redirect('/');
 });
 
 /* GET update page */
@@ -64,22 +64,22 @@ router.post('/updatePost/:id', upload.single('image'), async function(req, res, 
         // delete req.body._id; 
         // Sử dụng phương thức findOneAndUpdate để cập nhật tài liệu
         await productModel.findOneAndUpdate({productID: req.params.id}, {$set: req.body});
-        res.redirect('/product');
+        res.redirect('/');
     }
     else {
         let updateData = {
             productID: body.productID,
             productName: body.productName,
             productPrice: body.productPrice,
-            email: body.email,
-            password: body.password,
+            // email: body.email,
+            // password: body.password,
             image: file.filename
         };
         // Loại bỏ trường _id từ đối tượng updateData
         // delete updateData._id;
         // Sử dụng phương thức findOneAndUpdate để cập nhật tài liệu
         await productModel.findOneAndUpdate({productID: req.params.id}, {$set: updateData});
-        res.redirect('/product');
+        res.redirect('/');
     }
 });
 
@@ -120,11 +120,24 @@ router.get('/searchPrice', async(req, res) => {
     }
 })
 
-/* GET register page */
-/*router.get('/user/register', function(req, res) {
-    res.render('user/register');
+/* GET sort by price: low to high */
+router.get('/sortPriceLowToHigh', async(req, res) => {
+    const productsAscending = await productModel.find().sort({ productPrice: 1 });
+    res.render('product/index', {products: productsAscending});
 })
-*/
+
+/* GET sort by price: high to low */
+router.get('/sortPriceHighToLow', async(req, res) => {
+    const productsDescending = await productModel.find().sort({ productPrice: -1 });
+    res.render('product/index', {products: productsDescending});
+})
+
+/* GET sort by name */
+router.get('/sortByName', async(req, res) => {
+    const sortName = await productModel.find().sort({productName: 1});
+    res.render('product/index', {products: sortName});
+})
+
 module.exports = router;
 
 
